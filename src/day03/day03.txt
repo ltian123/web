@@ -1,0 +1,126 @@
+通配符:
+	<url-pattern>
+		/xxx/*
+			表示只要servletPath为/xxx/开头,不管后面写的是什么,都可以访问到
+		
+		*.xxx
+			表示以.xxx结尾的都可以访问到
+			
+			
+Servlet生命周期
+	1.创建一个Servlet实例
+		
+	2.初始化方法init
+		初始化方法,系统默认在第一次访问Servlet的时候执行,可以改变执行的时机
+		load-on-startup:改变执行的时机,有了该配置,则init方法会在服务启动的时候执行
+		值越小,优先级越高
+		
+	3.当请求到达时,执行service(doPost,doGet)方法
+		会根据提交的方式选择进入对应的doPost或者doGet方法,不管什么提交方式,都能进入service方法	
+	
+	4.摧毁Servlet实例
+		正常关闭服务的时候,会自动调用detory方法
+		
+
+Servlet常用API
+	public void init()
+		初始化方法,系统默认在第一次访问Servlet的时候执行,可以改变执行的时机
+		load-on-startup:改变执行的时机,有了该配置,则init方法会在服务启动的时候执行
+		值越小,优先级越高
+		
+	public void service()
+		服务方法,客户端发送请求访问当前的Servlet的时候回执行
+		
+		
+	public void destroy()
+		摧毁方法,服务正常关闭的时候回执行
+	
+	public ServletConfig getServletConfig()
+		配置初始化参数
+		表示servlet配置
+
+
+	Servlet接口
+
+	GenericServlet抽象类
+		实现了Servlet中的部分功能
+		init
+		destory
+		并且添加了一个无参的init方法
+		
+	HttpServlet抽象类
+		实现了service方法
+		并且添加了doGet以及doPost方法
+
+
+jsp
+	java server page
+	jsp就是servlet
+	
+	作用
+		简化页面的开发
+		jsp可以在html中插入java程序代码以及jsp标签
+		生成了一个.jsp结尾的文件
+		
+		
+		虽然在html中插入java代码,但是与html有区别
+		html运行在客户端
+		jsp就是一个servlet,运行在服务器端
+		是一种服务器动态页面的生成技术
+		
+			
+jsp组成
+	html+少量的java代码	
+	虽然有了jsp,servlet还是必须存在的
+	servlet主要负责业务逻辑处理
+	jsp主要负责处理显示逻辑
+		
+
+	
+	jsp指令
+		<%@ 指令名 属性名="属性值".......		%>
+		作用:
+			在.jsp文件转换成.java文件的时候,要求jsp引擎做一些额外的处理
+		
+		转换规则
+			html代码-------------->out.print("html代码")
+			<%@ %>--------------->影响生成servlet时的源代码
+			<% java代码%>---------->直接将java代码放入到service方法中对应的位置
+			<%=java代码%>---------->out.print(java代码)
+			<%! java代码%>--------->直接将java代码放入到servlet类体重
+			
+	jsp运行过程
+		当请求到达服务器,访问一个jsp
+		服务器将.jsp文件转换成.java文件
+		这个文件实际上就是一个servlet
+		转换是由jsp引擎完成
+		然后自动编译
+		实际上运行的就是servlet,在服务器运行
+		最后调用和执行这个servlet字节码文件
+			
+		
+		request.setAttribute("emps", emps);
+			将数据存放到request域中,后面可以在同一个request中获取对应的数据
+			不能跨request域
+		
+		request.getAttribute("emps");	
+			取出request域中的key为emps所对应的值,返回值是Object
+		
+	请求转发
+		一个servlet(jsp)将未完成的功能交给了另一个servlet(jsp)来处理
+		
+		特点:
+			只能在同一个服务器中进行转发
+			转发所涉及到的所有的组件,都能共享request和response
+			浏览只能看到一次请求和响应,属于内部控制权的转移,地址栏不会发生改变
+			可以访问WEB-INF资源
+			
+			
+				
+		
+		
+		
+		
+
+
+

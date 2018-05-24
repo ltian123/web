@@ -1,0 +1,262 @@
+Servlet
+	sun公司在jdk1.2的时候开发的一种用于扩展web服务的功能的一组组件技术
+	该组件要求实现servlet接口，并且符合servlet规范的结构
+	放在符合servlet规范的web服务器中运行
+	也就是说以后的访问都需要使用服务器
+	
+	组件(由程序员开发的)
+		按照一定的规范开发的程序(servlet规范)
+		该程序不需要考虑一些基础的服务(网络通信、多线程、xml解析)
+		只需要实现业务逻辑
+		网络操作由容器(服务器)去完成
+		
+	容器(由程序员去使用的一款软件)
+		已经存在的,不需要我们去实现
+		我们只需要去使用
+		其实也是一个按照一定规范开发的程序
+		主要实现了基础服务,并提供了组件的运行环境
+		
+	组件+容器的特点
+		1.简化了开发,不需要再去实现基础服务,已经由容器帮我们实现了
+		2.组件不需要依赖于特定的容器,容器是可以换的,该容器需要实现servlet规范
+		
+		3.客户端是由浏览器运行,不需要安装jdk和其他软件
+		
+	tomcat
+		开源的免费的servlet容器,实现了web服务器的大部分功能
+		
+		安装
+			1.解压
+			2.配置环境变量
+				tomcat依赖的:
+					JAVA_HOME=jdk安装目录
+					CLASSPATH=jdk搜索字节码文件所找的目录或者jar包
+					
+				tomcat自己的:
+					CATALINA_HOME=tomcat安装目录
+					
+				系统：
+					PATH=原来的path+tomcat安装目录的bin目录
+
+	JAVA_HOME		C:\Program Files\Java\jdk1.7.0_80
+	Path			%JAVA_HOME%\bin
+	CLASSPATH		.;%JAVA_HOME%\lib
+	CATALINA_HOME	E:\apache-tomcat-6.0.44
+	
+	启动服务器
+		第一种方式:
+			catalina.bat run	window
+			catalina.sh run		linux
+		第二种方式:
+			startup.bat			windows
+			startup.sh			linux
+		
+	停止服务器
+		第一种方式:
+			重新打开一个终端,输入shutdown.bat
+			
+		第二种方式:
+			快捷键:ctrl+c
+		
+
+	访问服务器
+		在浏览器地址栏输入:
+			http://ip:port
+			http://127.0.0.1:8080
+		
+		http://ip地址:端口号/自定义应用名(项目名)/URL命令(servlet命令,url-pattern)
+	
+			
+		改变端口号:
+			找到tomcat安装目录下的conf目录中的server.xml
+			初始的端口号都是8080,搜索到8080的位置
+			将8080改成你想要的端口号
+		
+	
+	开发一个servlet
+		写一个java类
+			必须实现servlet接口或者继承httpServlet
+			
+			
+		编译
+			需要依赖于servlet-api.jar(tomcat安装目录下的lib目录中)
+			进入java类所在目录
+			javac -d ../bin -cp ../lib/servlet-api.jar HelloServlet.java
+		
+		定义一个目录结构
+			appName(自定义应用名)
+				WEB-INF(目录,必须是这个名字,大小写敏感)
+					classes(目录,存放的是字节码文件)
+					lib(目录,存放第三方的jar包)
+					web.xml(文件,配置servlet)
+					
+				公共资源(images、js、css、html等)
+				
+				META-INF
+		
+		
+		
+		servlet运行过程
+			浏览器发送请求到达服务器
+			到达服务器后,服务器会将请求中的数据打成一个包
+			封装成一个请求对象(HttpServletRequest接口的实现类的对象)
+			同时还会创建一个响应对象(HttpServletResponse接口的实现类的对象)
+			服务器还会根据请求路径中的命令查看web.xml中所对应的url-pattern
+			然后找到它所对应的Servlet
+			执行该Servlet中的service方法(doPost,doGet)
+			并且服务器会将创建的request和response对象传给service方法
+			在service方法中可以获取请求中的数据,并做业务处理
+			并且提供响应的视图(html)
+			服务器会跟response对象生成的响应结果发送给客户端
+		
+		
+		http协议
+			超文本传输协议
+			
+			定义了客户端与服务器之间的数据的传输过程与传输的数据格式
+			
+			无状态协议
+				每次访问都是一次请求一次响应,用完之后就结束了
+				下次再次访问时新的请求和新的响应,跟上一次的无关
+				
+		传输过程
+			浏览器向服务器发送连接的请求
+			服务器同意后与浏览器建立连接
+			浏览器向服务器发送数据
+			服务器处理请求、处理业务、生成响应
+			服务器将响应结果发送给浏览器
+			服务器关闭连接
+			
+			浏览器如果需要再次发送请求
+			需要重新建立新的连接
+			
+			
+			状态码:
+				状态码>400 	 出错
+				
+				状态码<400	 正确
+				
+				200
+					成功,正确运行
+					
+				302
+					重定向的状态码
+				
+				404
+					资源不存在
+				
+				405
+					请求方式不对
+					
+				500
+					程序出错,出现异常
+			
+			
+		request.getParameter("key");	
+			获取表单中组件的name属性为key的组件的value值
+			
+		?name=admin
+		
+		
+		请求方式
+			get请求
+				浏览器地址直接访问的都是get请求
+				超链接使用的也是get请求
+				js改变location也是get请求
+				表单默认提交方式也是get
+				通过?传参也是get
+				
+			
+			
+			post请求
+				只有表单提交的时候定义method=post才是post请求
+		
+		
+		create database web;
+		use web;
+		create table t_emp(
+			id int primary key auto_increment,
+			name varchar(20),
+			salary double,
+			gender varchar(2),
+			edu varchar(10),
+			hobbies varchar(20)
+		)engine=Innodb default charset=utf8;
+
+	创建一个html,用来做员工添加的功能
+		
+	
+	
+解决乱码问题
+	
+	请求
+		post请求
+			request.setCharacterEncoding("utf-8")
+				告诉容器,解析请求中的数据的时候使用utf-8编码解析
+		
+		get请求
+			第一种方式:
+			name = new String(name.getBytes("ISO8859-1"),"utf-8")
+			tomcat默认使用的字符集是ISO8859-1,需要将ISO8859-1的编码转换成utf-8
+	
+			第二种方式:
+			改变tomcat使用的字符集
+			tomcat安装目录下面的conf下的server.xml
+			在对应的端口配置后面加一句话
+			URIEncoding="UTF-8"
+			 <Connector port="8080" protocol="HTTP/1.1" 
+               connectionTimeout="20000" 
+               redirectPort="8443" URIEncoding="UTF-8"/>
+	
+	
+	响应
+		response.setCharacterEncoding("utf-8")
+		告诉浏览器使用utf-8编码解析响应数据并打开
+				
+		response.setContentType("text/html;charset=utf-8")
+		告诉容器响应的数据格式是text/html(html文本)
+		字符编码是utf-8
+		以utf-8的编码传输给客户端
+		告诉浏览器以utf-8的编码解析响应数据并打开
+	
+	数据库乱码问题
+		?useUnicode=true&characterEncoding=utf-8
+		
+	
+	JDBC访问数据库的步骤(6步)
+		1.注册驱动(告诉java,使用的是什么数据库)
+			Class.forName(...)
+		
+		2.获取连接(登录到数据库中/获取数据库中的一个连接)
+			DriverManager.getConnection(url,name,pwd)
+		
+		3.获取状态集
+			conn.createStatement
+		
+		4.获取结果集(执行sql语句)
+			s.executeQuery(sql)
+			s.executeUpdate(sql)
+			
+		5.RM映射(处理结果集)--可选
+			....
+		
+		6.释放资源
+			close
+	
+	
+	在项目过程中,中途添加了jar包,必须将项目重新部署才能生效
+	
+	
+	作业一:
+		根据添加功能完成查询所有员工信息的功能
+		
+	作业二:
+		创建一张学生表:id,name,gender,age
+		完成添加功能,要求不允许出现html,全部使用servlet
+		
+	
+	
+		
+		
+		
+		

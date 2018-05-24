@@ -1,0 +1,99 @@
+	cookie限制
+		只能保存字符串
+		字符编码只能是ISO8859-1	
+		cookie保存在客户端,不安全
+		浏览器可以禁用cookie
+		浏览器保存的cookie有限制
+		数据大小跟浏览器有关,一般在4K左右
+		
+session
+	会话
+	在服务器端维护用户状态的一种管理技术	
+	当浏览器访问服务器的时候,服务器会创建一个session对象(HttpSession)
+	该对象有一个唯一的标识符,sessionId
+	服务器在默认的情况下,会使用cookie来保存这个sesionId
+	当浏览器再次访问的时候,请求中会带上这个JSession,
+	服务器可以通过这个sessionId查询所对应的session对象
+	这样就可以保存用户的多次操作的中间结果
+	
+	
+	创建
+		HttpSession
+		
+		//相当于HttpServletRequest.getSession(true)
+		HttpServletRequest.getSession()
+		
+		HttpServletRequest.getSession(boolean flag);
+		
+		true
+			浏览器发送请求到达服务器
+			服务器会检查在请求中是否有sesionId
+			如果有:
+				服务器会检查该sessionId所对应的对象是否存在
+				如果存在:
+					返回这个session对象
+				如果不存在:
+					服务器会创建一个新的session会返回
+			如果没有:	
+				服务器会创建一个新的session会返回
+			
+			如果找到,用原来的
+			如果找不到,新建	
+				
+		false
+			浏览器发送请求到达服务器
+			服务器会检查请求中是否有sessionId
+			如果有:
+				服务器会检查该sessionId所对应的对象是否存在
+				如果存在:
+					返回该session对象
+				如果不存在:
+					返回null				
+			如果没有:
+				返回null
+			
+			如果找到,用原来的
+			如果找不到,返回null
+			
+	常用方法:
+		数据存储
+		session.setAttribute(String key,String value)
+		session.getAttribute(String key)
+		
+		删除
+		session.removeAttribute(String key)
+		
+		销毁整个session区域
+		session.invalidate()
+	
+		
+		session默认生存时间是30分钟
+		session.setMaxInactiveInterval(int seconds)
+	
+	常用于:
+		登录检查
+		数据存储
+		跨请求传递数据
+		验证码
+		
+	
+	验证码
+		
+		[0,9]
+		Random.nextInt(10)
+		Math.random()*10
+		
+		[2,11] +2
+		Math.random()*10 + 2
+		
+		[3,7]	
+		Random.nextInt(4)+3
+		(int)(Math.random()*5+3)
+		
+		[a,h]
+		(Math.random())*('h'-'a'+1) +'a'
+		
+		
+		0-9 a-z A-Z
+		
+	

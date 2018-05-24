@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+  version="2.0">
+   
+  <!-- 描述,可以删除 -->
+  <description>JSTL 1.1 functions library</description>
+  <display-name>JSTL functions</display-name>
+  
+  <!-- 版本号 -->
+  <tlib-version>1.1</tlib-version>
+  
+  <!-- 自定义名字,可以随便写,但是一般情况与文件名字相同 -->
+  <short-name>strUtil</short-name>
+  <!-- uri路径 -->
+  <uri>/stringUtil</uri>
+
+  <function>
+  	<!-- 描述,可以删除 -->
+<!--     <description> -->
+<!--       Tests if an input string contains the specified substring. -->
+<!--     </description> -->
+	<!-- 方法名,可以与定义好的方法名称一样,也可以不一样,但是一般情况是保持一致的 -->
+    <name>aa</name>
+    <!-- 方法所在的类的路径 -->
+    <function-class>util.StringUtil</function-class>
+    <function-signature>java.lang.String checkHobby(java.lang.String,java.lang.String)</function-signature>
+  </function>
+
+  
+</taglib>

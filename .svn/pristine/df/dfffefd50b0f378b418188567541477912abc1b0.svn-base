@@ -1,0 +1,115 @@
+ExceptionInInitializerError
+	静态代码块中出现异常时使用
+	
+
+	
+转发
+	request.getRequestDispatcher("url地址").forward(request, response);
+
+响应重定向重定向
+	response.sendRedirect("url地址");
+	
+	地址栏随着重定向地址的改变而改变
+	重定向的请求都是get请求,相当于在地址栏输入了一个新的地址
+	可以跨域访问
+	
+	
+路径
+	绝对路径
+		以/开头
+			/表示端口号后面的/
+				http://127.0.0.1:8080/web/findAll
+				表示的就是8080后面那个/
+		不关心当前地址栏处于那一层,始终从自定义应用开始,实际上关心的只是我需要使用的那个命令所在的层数
+		
+		<form action="/"></form>
+		<a href="/"></a>
+		response.sendRedirect("/")
+		<img src="/" />
+		
+		
+	相对路径
+		相对的是当前浏览器地址栏的最后一层地址
+		比较麻烦
+	
+	
+根据数据库的值默认选中单选框的值
+若值为男,默认选中男,反之亦然
+gender
+	男	女
+gender=="男"	选中男
+gender=="女"	选中女
+
+if(gender=="男"){
+	"checked"
+}else{
+	""
+}
+gender == "男" ? "checked" : ""
+
+
+
+request常用方法:
+	request.getParameterMap()
+		获取请求中的数据,以map的类型存储,符合key-value的对应关系
+		key表示的是表单中的name属性,值是表单中传递的参数值
+		
+		
+		Map<String,String[]> map = request.getParameterMap();
+		Set<Entry<String, String[]>> set = map.entrySet();
+		Iterator<Entry<String, String[]>> it = set.iterator();
+		while(it.hasNext()){
+			Entry<String, String[]> entry = it.next();
+			System.out.println("key:"+entry.getKey());
+			System.out.print("values:");
+			for(String s : entry.getValue()){
+				System.out.print(s+",");
+			}
+			System.out.println();
+		}
+		
+		发现除了多选框和单选框,都能取到值
+		多选框以及单选框不仅没有值,且没有取到key
+	
+		当表单提交的时候,文本虽然没有输入东西,但是实际上有一个默认值,空字符串
+		但是复选框没有选择的时候是没有默认值,系统认为没有传递复选框的值,
+		因此通过Map方法获取不到key,通过parameter方法获取的值为null,因为找不到对应的key
+		
+		找不到key的时候会返回null,找到key,但是没有值的时候回返回一个空字符串
+
+		//返回的是自定义应用名
+		String contextPath = request.getContextPath();
+		System.out.println("contextPath:"+contextPath);
+		
+		//返回的是servlet请求名(也就是url-pattern)
+		String servletPath = request.getServletPath();
+		System.out.println("servletPath:"+servletPath);
+		
+		//返回的是浏览器地址栏完整的URL地址
+		StringBuffer url = request.getRequestURL();
+		System.out.println("url:"+url.toString());
+		
+		//返回的是端口号后面的路径,相当于contextPath+servletPath
+		String uri = request.getRequestURI();
+		System.out.println("uri:"+uri);
+		
+		//返回的是访问当前服务器的用户所在的ip地址
+		String ip = request.getRemoteAddr();
+		System.out.println("ip:"+ip);
+		
+		//返回的是请求方式
+		String method = request.getMethod();
+		System.out.println("method:"+method);
+		
+		String name = request.getParameter("name");
+		String[] hobbies = request.getParameterValues("hobbis");
+			
+
+
+
+
+
+
+
+	
+	
